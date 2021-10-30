@@ -1,0 +1,39 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model MainTable {
+    main_table_id String       @id @db.Char(26)
+    string_prop1  String
+    string_prop2  String?
+    string_prop3  String?
+    string_prop4  String?
+    string_prop5  String?
+    int_prop1     Int
+    int_prop2     Int?
+    int_prop3     Int?
+    int_prop4     Int?
+    int_prop5     Int?
+    created_at    DateTime
+    updated_at    DateTime     @updatedAt
+    child_tables  ChildTable[]
+}
+
+model ChildTable {
+    child_table_id String    @id @db.Char(26)
+    string_prop1   String
+    string_prop2   String?
+    string_prop3   String?
+    int_prop1      Int
+    int_prop2      Int?
+    int_prop3      Int?
+    created_at     DateTime
+    updated_at     DateTime  @updatedAt
+    main_table     MainTable @relation(fields: [main_table_id], references: [main_table_id])
+    main_table_id  String    @db.Char(26)
+}
